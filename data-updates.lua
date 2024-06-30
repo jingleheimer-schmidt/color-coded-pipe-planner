@@ -6,6 +6,7 @@ local base_filter_items = {
     "pipe",
     "pipe-to-ground",
     "storage-tank",
+    "pump",
 }
 local entity_filters = {}
 local alt_entity_filters = {}
@@ -22,15 +23,19 @@ for name, _ in pairs(rgb_colors) do
     table.insert(entity_filters, name .. "-pipe")
     table.insert(entity_filters, name .. "-pipe-to-ground")
     table.insert(entity_filters, name .. "-storage-tank")
+    table.insert(entity_filters, name .. "-pump")
     table.insert(alt_entity_filters, name .. "-pipe")
     table.insert(alt_entity_filters, name .. "-pipe-to-ground")
     table.insert(alt_entity_filters, name .. "-storage-tank")
+    table.insert(alt_entity_filters, name .. "-pump")
     table.insert(reverse_entity_filters, name .. "-pipe")
     table.insert(reverse_entity_filters, name .. "-pipe-to-ground")
     table.insert(reverse_entity_filters, name .. "-storage-tank")
+    table.insert(reverse_entity_filters, name .. "-pump")
     table.insert(alt_reverse_entity_filters, name .. "-pipe")
     table.insert(alt_reverse_entity_filters, name .. "-pipe-to-ground")
     table.insert(alt_reverse_entity_filters, name .. "-storage-tank")
+    table.insert(alt_reverse_entity_filters, name .. "-pump")
 end
 
 local pipe_painting_planner = table.deepcopy(data.raw["selection-tool"]["selection-tool"])
