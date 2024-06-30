@@ -13,7 +13,7 @@
 data:extend{
     {
         type = "bool-setting",
-        name = "color-coded-pipes-bots-required",
+        name = "color-coded-pipe-planner-bots-required",
         setting_type = "runtime-per-user",
         default_value = true,
         order = "a",

@@ -30,7 +30,7 @@ local function paint_pipe(player, pipe)
     local pipe_type = pipe.type
     local already_painted = pipe.name == fluid_name .. "-" .. pipe_type
     if fluid_name and not (fluid_name == "") and not already_painted then
-        if player.mod_settings["color-coded-pipes-bots-required"].value then
+        if player.mod_settings["color-coded-pipe-planner-bots-required"].value then
             pipe.order_upgrade{
                 force = pipe.force,
                 target = fluid_name .. "-" .. pipe_type,
@@ -60,7 +60,7 @@ local function unpaint_pipe(player, pipe)
     local pipe_type = pipe.type
     local already_unpainted = pipe.name == pipe_type
     if not already_unpainted then
-        if player.mod_settings["color-coded-pipes-bots-required"].value then
+        if player.mod_settings["color-coded-pipe-planner-bots-required"].value then
             pipe.order_upgrade{
                 force = pipe.force,
                 target = pipe_type,
