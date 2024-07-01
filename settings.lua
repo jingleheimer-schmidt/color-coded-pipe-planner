@@ -10,7 +10,7 @@
 --     }
 -- }
 
-data:extend{
+data:extend {
     {
         type = "bool-setting",
         name = "color-coded-pipe-planner-bots-required",

@@ -86,7 +86,7 @@ pipe_painting_shortcut.icon.filename = "__color-coded-pipe-planner__/graphics/se
 pipe_painting_shortcut.small_icon.filename = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x24-white.png"
 pipe_painting_shortcut.disabled_small_icon.filename = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x24.png"
 
-data:extend{ pipe_painting_shortcut }
+data:extend { pipe_painting_shortcut }
 
 local pipe_painting_custom_input = {
     type = "custom-input",
@@ -95,4 +95,4 @@ local pipe_painting_custom_input = {
     action = "spawn-item",
     item_to_spawn = "pipe-painting-planner",
 }
-data:extend{ pipe_painting_custom_input }
+data:extend { pipe_painting_custom_input }
