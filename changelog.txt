@@ -1,0 +1,7 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.0.1
+Date: 30JUN2024
+  Changes:
+    - initial release to the mod portal
+  Features:
+    - Adds a planner tool for automatically color coding pipes based on their contents
