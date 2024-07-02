@@ -1,4 +1,6 @@
 
+local fluid_to_color_map = require("fluid_to_color_map")
+
 ---@param entity LuaEntity
 ---@return string
 local function get_fluid_name(entity)
@@ -25,31 +27,35 @@ end
 ---@param player LuaPlayer
 ---@param pipe LuaEntity
 ---@param bots_required boolean
-local function paint_pipe(player, pipe, bots_required)
+---@param planner_mode string
+local function paint_pipe(player, pipe, bots_required, planner_mode)
     if not pipe.valid then return end
     local fluid_name = get_fluid_name(pipe)
     local pipe_type = pipe.type
     local already_painted = pipe.name == fluid_name .. "-" .. pipe_type
     if fluid_name and not (fluid_name == "") and not already_painted then
-        if bots_required then
-            pipe.order_upgrade {
-                force = pipe.force,
-                target = fluid_name .. "-" .. pipe_type,
-                player = player,
-                direction = pipe.direction
-            }
-        else
-            local entity = player.surface.create_entity {
-                name = fluid_name .. "-" .. pipe_type,
-                position = pipe.position,
-                force = pipe.force,
-                direction = pipe.direction,
-                fluidbox = pipe.fluidbox,
-                fast_replace = true,
-                spill = false,
-                player = nil,
-            }
-            entity.last_user = player
+        local prefix = ((planner_mode == "perfect-match") and fluid_name) or fluid_to_color_map[fluid_name]
+        if prefix then
+            if bots_required then
+                pipe.order_upgrade {
+                    force = pipe.force,
+                    target = prefix .. "-" .. pipe_type,
+                    player = player,
+                    direction = pipe.direction
+                }
+            else
+                local entity = player.surface.create_entity {
+                    name = prefix .. "-" .. pipe_type,
+                    position = pipe.position,
+                    force = pipe.force,
+                    direction = pipe.direction,
+                    fluidbox = pipe.fluidbox,
+                    fast_replace = true,
+                    spill = false,
+                    player = nil,
+                }
+                entity.last_user = player
+            end
         end
     end
 end
@@ -92,9 +98,10 @@ local function on_player_selected_area(event)
     local item = event.item
     if item ~= "pipe-painting-planner" then return end
     local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value ---@type boolean
+    local planner_mode = player.mod_settings["color-coded-pipe-planner-mode"].value ---@type string
     for _, entity in pairs(event.entities) do
         if entity.valid then
-            paint_pipe(player, entity, bots_required)
+            paint_pipe(player, entity, bots_required, planner_mode)
         end
     end
 end
