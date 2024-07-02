@@ -2,7 +2,7 @@
 Version: 0.0.2
 Date: 01JUL2024
   Changes:
-    - added planner mode mod setting to choose between a best-guess or perfect-match color algorithm
+    - added per-player planner mode mod setting. "Best Guess" attempts to match the fluid color to one of the rainbow colored pipes, "Perfect Match" uses pipes with the exact color of the fluid
   Bugfixes:
     - fixed error when using the alt/reverse modes of other modded planner tools
     - fixed duplicate entity glitch when a fast-replace action failed
