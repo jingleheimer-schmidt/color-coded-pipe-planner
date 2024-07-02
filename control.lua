@@ -24,13 +24,14 @@ end
 
 ---@param player LuaPlayer
 ---@param pipe LuaEntity
-local function paint_pipe(player, pipe)
+---@param bots_required boolean
+local function paint_pipe(player, pipe, bots_required)
     if not pipe.valid then return end
     local fluid_name = get_fluid_name(pipe)
     local pipe_type = pipe.type
     local already_painted = pipe.name == fluid_name .. "-" .. pipe_type
     if fluid_name and not (fluid_name == "") and not already_painted then
-        if player.mod_settings["color-coded-pipe-planner-bots-required"].value then
+        if bots_required then
             pipe.order_upgrade {
                 force = pipe.force,
                 target = fluid_name .. "-" .. pipe_type,
@@ -55,12 +56,13 @@ end
 
 ---@param player LuaPlayer
 ---@param pipe LuaEntity
-local function unpaint_pipe(player, pipe)
+---@param bots_required boolean
+local function unpaint_pipe(player, pipe, bots_required)
     if not pipe.valid then return end
     local pipe_type = pipe.type
     local already_unpainted = pipe.name == pipe_type
     if not already_unpainted then
-        if player.mod_settings["color-coded-pipe-planner-bots-required"].value then
+        if bots_required then
             pipe.order_upgrade {
                 force = pipe.force,
                 target = pipe_type,
@@ -89,9 +91,10 @@ local function on_player_selected_area(event)
     if not player then return end
     local item = event.item
     if item ~= "pipe-painting-planner" then return end
+    local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value ---@type boolean
     for _, entity in pairs(event.entities) do
         if entity.valid then
-            paint_pipe(player, entity)
+            paint_pipe(player, entity, bots_required)
         end
     end
 end
@@ -117,9 +120,10 @@ local function on_player_reverse_selected_area(event)
     if not player then return end
     local item = event.item
     if item ~= "pipe-painting-planner" then return end
+    local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value ---@type boolean
     for _, entity in pairs(event.entities) do
         if entity.valid then
-            unpaint_pipe(player, entity)
+            unpaint_pipe(player, entity, bots_required)
         end
     end
 end
