@@ -1,8 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.2
-Date: ????
+Date: 01JUL2024
   Changes:
-    - a
+    - added planner mode mod setting to choose between a best-guess or perfect-match color algorithm
   Bugfixes:
     - fixed error when using the alt/reverse modes of other modded planner tools
     - fixed duplicate entity glitch when a fast-replace action failed
@@ -12,4 +12,4 @@ Date: 30JUN2024
   Changes:
     - initial release to the mod portal
   Features:
-    - adds a planner tool for automatically color coding pipes based on their contents
+    - added a planner tool for automatically color coding pipes based on their contents
