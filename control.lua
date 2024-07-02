@@ -36,25 +36,37 @@ local function paint_pipe(player, pipe, bots_required, planner_mode)
     if fluid_name and not (fluid_name == "") and not already_painted then
         local prefix = ((planner_mode == "perfect-match") and fluid_name) or fluid_to_color_map[fluid_name]
         if prefix then
+            local name = prefix .. "-" .. pipe_type
+            local force = pipe.force
+            local direction = pipe.direction
             if bots_required then
                 pipe.order_upgrade {
-                    force = pipe.force,
-                    target = prefix .. "-" .. pipe_type,
+                    force = force,
+                    target = name,
                     player = player,
-                    direction = pipe.direction
+                    direction = direction
                 }
             else
-                local entity = player.surface.create_entity {
-                    name = prefix .. "-" .. pipe_type,
-                    position = pipe.position,
-                    force = pipe.force,
-                    direction = pipe.direction,
-                    fluidbox = pipe.fluidbox,
-                    fast_replace = true,
-                    spill = false,
-                    player = nil,
-                }
-                entity.last_user = player
+                local surface = pipe.surface
+                local position = pipe.position
+                if surface.can_fast_replace {
+                        name = name,
+                        position = position,
+                        direction = direction,
+                        force = force,
+                    } then
+                    local entity = player.surface.create_entity {
+                        name = name,
+                        position = position,
+                        force = force,
+                        direction = direction,
+                        fluidbox = pipe.fluidbox,
+                        fast_replace = true,
+                        spill = false,
+                        player = nil,
+                    }
+                    entity.last_user = player
+                end
             end
         end
     end

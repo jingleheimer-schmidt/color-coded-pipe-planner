@@ -5,6 +5,7 @@ Date: ????
     - a
   Bugfixes:
     - fixed error when using the alt/reverse modes of other modded planner tools
+    - fixed duplicate entity glitch when a fast-replace action failed
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.1
 Date: 30JUN2024
