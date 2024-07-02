@@ -80,25 +80,36 @@ local function unpaint_pipe(player, pipe, bots_required)
     local pipe_type = pipe.type
     local already_unpainted = pipe.name == pipe_type
     if not already_unpainted then
+        local force = pipe.force
+        local direction = pipe.direction
         if bots_required then
             pipe.order_upgrade {
-                force = pipe.force,
+                force = force,
                 target = pipe_type,
                 player = player,
-                direction = pipe.direction
+                direction = direction,
             }
         else
-            local entity = player.surface.create_entity {
-                name = pipe_type,
-                position = pipe.position,
-                force = pipe.force,
-                direction = pipe.direction,
-                fluidbox = pipe.fluidbox,
-                fast_replace = true,
-                spill = false,
-                player = nil,
-            }
-            entity.last_user = player
+            local surface = pipe.surface
+            local position = pipe.position
+            if surface.can_fast_replace {
+                    name = pipe_type,
+                    position = position,
+                    direction = direction,
+                    force = force,
+                } then
+                local entity = player.surface.create_entity {
+                    name = pipe_type,
+                    position = position,
+                    force = force,
+                    direction = direction,
+                    fluidbox = pipe.fluidbox,
+                    fast_replace = true,
+                    spill = false,
+                    player = nil,
+                }
+                entity.last_user = player
+            end
         end
     end
 end
