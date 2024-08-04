@@ -36,7 +36,7 @@ local function paint_pipe(player, pipe, bots_required, planner_mode)
     if fluid_name and not (fluid_name == "") and not already_painted then
         local prefix = ((planner_mode == "perfect-match") and fluid_name) or fluid_to_color_map[fluid_name]
         if prefix then
-            local name = prefix .. "-" .. pipe_type
+            local name = prefix .. "-color-coded-" .. pipe_type
             local force = pipe.force
             local direction = pipe.direction
             if bots_required then
