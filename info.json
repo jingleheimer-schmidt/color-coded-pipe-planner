@@ -1,6 +1,5 @@
 {
   "name": "color-coded-pipe-planner",
-  "version": "0.0.2",
   "title": "Color Coded Pipe Planner",
   "author": "asher_sky",
   "contact": "",
@@ -11,4 +10,5 @@
     "base",
     "color-coded-pipes > 0.0.5"
   ]
+    "version": "0.0.3",
 }
