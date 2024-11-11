@@ -107,7 +107,7 @@ local function paint_pipe(player, pipe, bots_required, planner_mode)
     if not pipe.valid then return end
     local fluid_name = get_fluid_name(pipe)
     local pipe_type = pipe.type
-    local already_painted = pipe.name == fluid_name .. "-" .. pipe_type
+    local already_painted = pipe.name == fluid_name .. "-color-coded-" .. pipe_type
     if fluid_name and not (fluid_name == "") and not already_painted then
         local prefix = ((planner_mode == "perfect-match") and fluid_name) or fluid_to_color_map[fluid_name]
         if prefix then
