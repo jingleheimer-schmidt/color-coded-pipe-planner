@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.4
+Date: 10NOV2024
+  Changes:
+    - added support for Factorio 2.0
+  Bugfixes:
+    - fixed that already painted pipes could be painted again with the same color when using the planner tool
+  Locale:
+    - added cs, de, es-ES, fr, hu, ja, ko, pl, ru, uk, zh-CN, and zh-TW locale from Crowdin
+---------------------------------------------------------------------------------------------------
 Version: 0.0.3
 Date: 03AUG2024
   Changes:

@@ -40,19 +40,20 @@ end
 
 local pipe_painting_planner = table.deepcopy(data.raw["selection-tool"]["selection-tool"])
 pipe_painting_planner.name = "pipe-painting-planner"
--- pipe_painting_planner.entity_type_filters = { "pipe", "pipe-to-ground", "storage-tank" }
--- pipe_painting_planner.alt_entity_type_filters = { "pipe", "pipe-to-ground", "storage-tank" }
-pipe_painting_planner.entity_filters = entity_filters
-pipe_painting_planner.alt_entity_filters = alt_entity_filters
-pipe_painting_planner.selection_mode = { "friend", "upgrade", }
-pipe_painting_planner.alt_selection_mode = { "friend", "cancel-upgrade", }
 
--- pipe_painting_planner.reverse_entity_type_filters = { "pipe", "pipe-to-ground", "storage-tank" }
--- pipe_painting_planner.alt_reverse_entity_type_filters = { "pipe", "pipe-to-ground", "storage-tank" }
-pipe_painting_planner.reverse_entity_filters = reverse_entity_filters
-pipe_painting_planner.alt_reverse_entity_filters = alt_reverse_entity_filters
-pipe_painting_planner.reverse_selection_mode = { "friend", "upgrade", }
-pipe_painting_planner.alt_reverse_selection_mode = { "friend", "upgrade", }
+pipe_painting_planner.select.entity_filters = entity_filters
+pipe_painting_planner.select.mode = { "friend", "upgrade", }
+
+pipe_painting_planner.alt_select.entity_filters = alt_entity_filters
+pipe_painting_planner.alt_select.mode = { "friend", "cancel-upgrade", }
+
+pipe_painting_planner.reverse_select = table.deepcopy(pipe_painting_planner.select)
+pipe_painting_planner.reverse_select.entity_filters = reverse_entity_filters
+pipe_painting_planner.reverse_select.mode = { "friend", "upgrade", }
+
+pipe_painting_planner.alt_reverse_select = table.deepcopy(pipe_painting_planner.alt_select)
+pipe_painting_planner.alt_reverse_select.entity_filters = alt_reverse_entity_filters
+pipe_painting_planner.alt_reverse_select.mode = { "friend", "cancel-upgrade", }
 
 pipe_painting_planner.flags = {
     "not-stackable",
@@ -82,9 +83,9 @@ pipe_painting_shortcut.localised_description = { "shortcut-description.give-pipe
 pipe_painting_shortcut.associated_control_input = "pipe-painting-custom-input"
 pipe_painting_shortcut.order = "b[blueprints]-p[pipe-painting-planner]"
 pipe_painting_shortcut.style = "default"
-pipe_painting_shortcut.icon.filename = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x32-white.png"
-pipe_painting_shortcut.small_icon.filename = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x24-white.png"
-pipe_painting_shortcut.disabled_small_icon.filename = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x24.png"
+pipe_painting_shortcut.icon = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x32-white.png"
+pipe_painting_shortcut.small_icon = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x24-white.png"
+-- pipe_painting_shortcut.disabled_small_icon.filename = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x24.png"
 
 data:extend { pipe_painting_shortcut }
 
