@@ -14,35 +14,12 @@ local function entity_is_crafting_machine(entity)
 end
 
 ---@param entity LuaEntity
----@param traversed_ids table<integer, boolean>?
----@param segment_id integer?
 ---@return string
-local function get_fluid_name(entity, traversed_ids, segment_id)
-    -- Render a circle for debugging purposes
-    rendering.draw_circle {
-        color = { r = 1, g = 1, b = 1 },
-        radius = 0.25,
-        width = 0.25,
-        filled = true,
-        target = entity,
-        surface = entity.surface,
-        time_to_live = 60 * 2,
-    }
-    traversed_ids = traversed_ids or {}
+local function get_fluid_name(entity)
     local fluid_name = ""
     local fluidbox = entity.fluidbox
-
     if fluidbox and fluidbox.valid then
-        -- Check each fluid box for contents
         for index = 1, #fluidbox do
-            -- Skip if the segment ID does not match
-            local new_segment_id = fluidbox.get_fluid_segment_id(index)
-            segment_id = segment_id or new_segment_id
-            if new_segment_id ~= segment_id then
-                goto continue
-            end
-            
-            -- Check the contents of the current fluid box
             local contents = fluidbox.get_fluid_segment_contents(index)
             if contents and next(contents) then
                 local amount = 0
@@ -54,48 +31,8 @@ local function get_fluid_name(entity, traversed_ids, segment_id)
                 end
                 break
             end
-
-            -- Check for a filter if no fluid is present
-            local filter = fluidbox.get_filter(index)
-            if filter then
-                fluid_name = filter.name
-                break
-            end
-
-            local recipe = entity_is_crafting_machine(entity) and entity.get_recipe()
-            if recipe then
-                local products = recipe.products
-                for _, product in pairs(products) do
-                    if product.type == "fluid" then
-                        if product.fluidbox_index == index then
-                            fluid_name = product.name
-                            break
-                        end
-                    end
-                end
-            end
-
-            ::continue::
-        end
-
-        traversed_ids[entity.unit_number] = true
-
-        -- If no fluid name is found, traverse only connected fluid boxes
-        if fluid_name == "" then
-            local neighbor_arrays = entity.neighbours --[[@as ((LuaEntity[])[])]]
-            for _, neighbors in pairs(neighbor_arrays) do
-                for _, neighbor in pairs(neighbors) do
-                    if not traversed_ids[neighbor.unit_number] then
-                        fluid_name = get_fluid_name(neighbor, traversed_ids, segment_id)
-                        if fluid_name and not (fluid_name == "") then
-                            break
-                        end
-                    end
-                end
-            end
         end
     end
-
     return fluid_name
 end
 
