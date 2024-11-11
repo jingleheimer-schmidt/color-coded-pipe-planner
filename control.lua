@@ -195,8 +195,8 @@ local function on_player_selected_area(event)
     if not player then return end
     local item = event.item
     if item ~= "pipe-painting-planner" then return end
-    local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value ---@type boolean
-    local planner_mode = player.mod_settings["color-coded-pipe-planner-mode"].value ---@type string
+    local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
+    local planner_mode = player.mod_settings["color-coded-pipe-planner-mode"].value --[[@as string]]
     for _, entity in pairs(event.entities) do
         if entity.valid then
             paint_pipe(player, entity, bots_required, planner_mode)
@@ -225,7 +225,7 @@ local function on_player_reverse_selected_area(event)
     if not player then return end
     local item = event.item
     if item ~= "pipe-painting-planner" then return end
-    local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value ---@type boolean
+    local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
     for _, entity in pairs(event.entities) do
         if entity.valid then
             unpaint_pipe(player, entity, bots_required)
