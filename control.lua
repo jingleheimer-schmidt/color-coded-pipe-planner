@@ -2,13 +2,28 @@
 local fluid_to_color_map = require("fluid_to_color_map")
 
 ---@param entity LuaEntity
+---@param traversed_ids table<integer, boolean>?
+---@param segment_id integer?
 ---@return string
-local function get_fluid_name(entity)
+local function get_fluid_name(entity, traversed_ids, segment_id)
+    rendering.draw_circle {
+        color = { r = 1, g = 1, b = 1 },
+        radius = 0.5,
+        width = 0.5,
+        filled = true,
+        target = entity,
+        surface = entity.surface,
+        time_to_live = 60 * 5,
+    }
+    traversed_ids = traversed_ids or {}
     local fluid_name = ""
     local fluidbox = entity.fluidbox
     if fluidbox and fluidbox.valid then
         for index = 1, #fluidbox do
-            local contents = fluidbox.get_fluid_system_contents(index)
+            if segment_id and fluidbox.get_fluid_segment_id(index) ~= segment_id then
+                goto continue
+            end
+            local contents = fluidbox.get_fluid_segment_contents(index)
             if contents then
                 local amount = 0
                 for name, count in pairs(contents) do
@@ -18,6 +33,33 @@ local function get_fluid_name(entity)
                     end
                 end
                 break
+            end
+            local filter = fluidbox.get_filter(index)
+            if filter then
+                fluid_name = filter.name
+                break
+            end
+            ::continue::
+        end
+        traversed_ids[entity.unit_number] = true
+        if fluid_name == "" then
+            for index = 1, #fluidbox do
+                local fluidbox_connections = fluidbox.get_connections(index)
+                if fluidbox_connections and fluidbox_connections[1] then
+                    for _, fluidbox_connection in pairs(fluidbox_connections) do
+                        local owner = fluidbox_connection.owner
+                        local uuid = owner.unit_number
+                        if uuid and not traversed_ids[uuid] then
+                            for id = 1, #fluidbox_connection do
+                                local from_segment_id = fluidbox.get_fluid_segment_id(index)
+                                fluid_name = get_fluid_name(owner, traversed_ids, from_segment_id)
+                                if fluid_name and not (fluid_name == "") then
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
             end
         end
     end
