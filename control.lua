@@ -272,22 +272,3 @@ local function on_gui_closed(event)
 end
 
 script.on_event(defines.events.on_gui_closed, on_gui_closed)
-
--- ---@param event EventData.on_mod_item_opened
--- local function delete_pipe_painting_planner(event)
---     local player = game.get_player(event.player_index)
---     if not player then return end
---     local item = event.item
---     if not (item.name == "pipe-painting-planner") then return end
---     local inventory = player.get_main_inventory()
---     if inventory and inventory.valid then
---         local count = inventory.get_item_count("pipe-painting-planner")
---         if count > 0 then
---             inventory.remove{name = "pipe-painting-planner", count = 1}
---         end
---     end
---     player.opened = player.get_main_inventory()
--- end
-
--- -- script.on_event("delete-pipe-painting-planner", delete_pipe_painting_planner)
--- script.on_event(defines.events.on_mod_item_opened, delete_pipe_painting_planner)
