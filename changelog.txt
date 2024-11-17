@@ -5,6 +5,8 @@ Date: 16NOV2024
     - best guess mode now defaults to the fluid-color when it can't find color
   Bugfixes:
     - hardcoded shortcut icon sizes to prevent errors if the base shortcut icon size is changed
+  Locale:
+    - updated German (de) locale from Crowdin
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.4
 Date: 10NOV2024
