@@ -84,7 +84,9 @@ pipe_painting_shortcut.associated_control_input = "pipe-painting-custom-input"
 pipe_painting_shortcut.order = "b[blueprints]-p[pipe-painting-planner]"
 pipe_painting_shortcut.style = "default"
 pipe_painting_shortcut.icon = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x32-white.png"
+pipe_painting_shortcut.icon_size = 32
 pipe_painting_shortcut.small_icon = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x24-white.png"
+pipe_painting_shortcut.small_icon_size = 24
 -- pipe_painting_shortcut.disabled_small_icon.filename = "__color-coded-pipe-planner__/graphics/selection-planner-shortcut/pipe-painting-planner-x24.png"
 
 data:extend { pipe_painting_shortcut }
