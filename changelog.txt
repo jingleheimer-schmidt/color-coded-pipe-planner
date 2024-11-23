@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.6
-Date: ????
+Date: 23NOV2024
   Changes:
+    - added support for color-coded pipes from the pipe_plus mod
   Bugfixes:
     - fixed that the planner tool could repaint pipes that were already painted the same color (again)
 ---------------------------------------------------------------------------------------------------
