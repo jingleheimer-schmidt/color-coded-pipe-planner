@@ -128,10 +128,9 @@ end
 
 ---@param event EventData.on_player_selected_area
 local function on_player_selected_area(event)
+    if event.item ~= "pipe-painting-planner" then return end
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if item ~= "pipe-painting-planner" then return end
     local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
     local planner_mode = player.mod_settings["color-coded-pipe-planner-mode"].value --[[@as string]]
     for _, entity in pairs(event.entities) do
@@ -143,10 +142,9 @@ end
 
 ---@param event EventData.on_player_reverse_selected_area
 local function on_player_alt_selected_area(event)
+    if event.item ~= "pipe-painting-planner" then return end
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if item ~= "pipe-painting-planner" then return end
     local force = player.force
     for _, entity in pairs(event.entities) do
         if not entity.valid then
@@ -158,10 +156,9 @@ end
 
 ---@param event EventData.on_player_reverse_selected_area
 local function on_player_reverse_selected_area(event)
+    if event.item ~= "pipe-painting-planner" then return end
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if item ~= "pipe-painting-planner" then return end
     local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
     for _, entity in pairs(event.entities) do
         if entity.valid then
@@ -172,10 +169,9 @@ end
 
 ---@param event EventData.on_player_alt_reverse_selected_area
 local function on_player_alt_reverse_selected_area(event)
+    if event.item ~= "pipe-painting-planner" then return end
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if item ~= "pipe-painting-planner" then return end
     local force = player.force
     for _, entity in pairs(event.entities) do
         if entity.valid and entity.to_be_upgraded() then
