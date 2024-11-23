@@ -43,42 +43,43 @@ end
 local function paint_pipe(player, pipe, bots_required, planner_mode)
     if not pipe.valid then return end
     local fluid_name = get_fluid_name(pipe)
-    local pipe_type = pipe.type
-    local already_painted = pipe.name == fluid_name .. "-color-coded-" .. pipe_type
-    if fluid_name and not (fluid_name == "") and not already_painted then
-        local prefix = ((planner_mode == "perfect-match") and fluid_name) or fluid_to_color_map[fluid_name] or fluid_name
-        if prefix then
-            local name = prefix .. "-color-coded-" .. pipe_type
-            local force = pipe.force
-            local direction = pipe.direction
-            if bots_required then
-                pipe.order_upgrade {
+    local pipe_name = pipe.name
+    local prefix = ((planner_mode == "perfect-match") and fluid_name) or fluid_to_color_map[fluid_name] or fluid_name
+    local start_index, end_index = pipe_name:find(prefix .. "-color-coded-", 1, true)
+    local pipe_color_needs_update = not (start_index and end_index)
+    if pipe_color_needs_update then start_index, end_index = pipe_name:find("-color-coded-", 1, true) end
+    local unpainted_pipe_name = pipe_color_needs_update and pipe_name:sub((end_index or 0) + 1) or pipe_name
+    if fluid_name and fluid_name ~= "" and pipe_color_needs_update then
+        local name = prefix .. "-color-coded-" .. unpainted_pipe_name
+        local force = pipe.force
+        local direction = pipe.direction
+        if bots_required then
+            pipe.order_upgrade {
+                force = force,
+                target = name,
+                player = player,
+                direction = direction
+            }
+        else
+            local surface = pipe.surface
+            local position = pipe.position
+            if surface.can_fast_replace {
+                    name = name,
+                    position = position,
+                    direction = direction,
                     force = force,
-                    target = name,
-                    player = player,
-                    direction = direction
+                } then
+                local entity = player.surface.create_entity {
+                    name = name,
+                    position = position,
+                    force = force,
+                    direction = direction,
+                    fluidbox = pipe.fluidbox,
+                    fast_replace = true,
+                    spill = false,
+                    player = nil,
                 }
-            else
-                local surface = pipe.surface
-                local position = pipe.position
-                if surface.can_fast_replace {
-                        name = name,
-                        position = position,
-                        direction = direction,
-                        force = force,
-                    } then
-                    local entity = player.surface.create_entity {
-                        name = name,
-                        position = position,
-                        force = force,
-                        direction = direction,
-                        fluidbox = pipe.fluidbox,
-                        fast_replace = true,
-                        spill = false,
-                        player = nil,
-                    }
-                    entity.last_user = player
-                end
+                entity.last_user = player
             end
         end
     end
@@ -89,15 +90,15 @@ end
 ---@param bots_required boolean
 local function unpaint_pipe(player, pipe, bots_required)
     if not pipe.valid then return end
-    local pipe_type = pipe.type
-    local already_unpainted = pipe.name == pipe_type
-    if not already_unpainted then
+    local start_index, end_index = pipe.name:find("-color-coded-", 1, true)
+    if start_index and end_index then
         local force = pipe.force
         local direction = pipe.direction
+        local target_name = pipe.name:sub(end_index + 1)
         if bots_required then
             pipe.order_upgrade {
                 force = force,
-                target = pipe_type,
+                target = target_name,
                 player = player,
                 direction = direction,
             }
@@ -105,13 +106,13 @@ local function unpaint_pipe(player, pipe, bots_required)
             local surface = pipe.surface
             local position = pipe.position
             if surface.can_fast_replace {
-                    name = pipe_type,
+                    name = target_name,
                     position = position,
                     direction = direction,
                     force = force,
                 } then
                 local entity = player.surface.create_entity {
-                    name = pipe_type,
+                    name = target_name,
                     position = position,
                     force = force,
                     direction = direction,
@@ -128,10 +129,9 @@ end
 
 ---@param event EventData.on_player_selected_area
 local function on_player_selected_area(event)
+    if event.item ~= "pipe-painting-planner" then return end
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if item ~= "pipe-painting-planner" then return end
     local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
     local planner_mode = player.mod_settings["color-coded-pipe-planner-mode"].value --[[@as string]]
     for _, entity in pairs(event.entities) do
@@ -143,10 +143,9 @@ end
 
 ---@param event EventData.on_player_reverse_selected_area
 local function on_player_alt_selected_area(event)
+    if event.item ~= "pipe-painting-planner" then return end
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if item ~= "pipe-painting-planner" then return end
     local force = player.force
     for _, entity in pairs(event.entities) do
         if not entity.valid then
@@ -158,10 +157,9 @@ end
 
 ---@param event EventData.on_player_reverse_selected_area
 local function on_player_reverse_selected_area(event)
+    if event.item ~= "pipe-painting-planner" then return end
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if item ~= "pipe-painting-planner" then return end
     local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
     for _, entity in pairs(event.entities) do
         if entity.valid then
@@ -172,10 +170,9 @@ end
 
 ---@param event EventData.on_player_alt_reverse_selected_area
 local function on_player_alt_reverse_selected_area(event)
+    if event.item ~= "pipe-painting-planner" then return end
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if item ~= "pipe-painting-planner" then return end
     local force = player.force
     for _, entity in pairs(event.entities) do
         if entity.valid and entity.to_be_upgraded() then

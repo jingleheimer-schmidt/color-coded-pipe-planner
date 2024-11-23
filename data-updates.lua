@@ -1,6 +1,6 @@
 
 local color_coded_util = require("__color-coded-pipes__/color-coded-util")
-local rgb_colors = color_coded_util.rgb_colors
+local rgb_colors = color_coded_util.rgb_colors ---@type table<string, Color>
 
 local base_filter_items = {
     "pipe",
@@ -8,10 +8,15 @@ local base_filter_items = {
     "storage-tank",
     "pump",
 }
-local entity_filters = {}
-local alt_entity_filters = {}
-local reverse_entity_filters = {}
-local alt_reverse_entity_filters = {}
+if mods["pipe_plus"] then
+    table.insert(base_filter_items, "pipe-to-ground-2")
+    table.insert(base_filter_items, "pipe-to-ground-3")
+end
+
+local entity_filters = {} ---@type string[]
+local alt_entity_filters = {} ---@type string[]
+local reverse_entity_filters = {} ---@type string[]
+local alt_reverse_entity_filters = {} ---@type string[]
 
 for _, name in pairs(base_filter_items) do
     table.insert(entity_filters, name)
@@ -19,23 +24,17 @@ for _, name in pairs(base_filter_items) do
     table.insert(reverse_entity_filters, name)
     table.insert(alt_reverse_entity_filters, name)
 end
-for name, _ in pairs(rgb_colors) do
-    table.insert(entity_filters, name .. "-color-coded-pipe")
-    table.insert(entity_filters, name .. "-color-coded-pipe-to-ground")
-    table.insert(entity_filters, name .. "-color-coded-storage-tank")
-    table.insert(entity_filters, name .. "-color-coded-pump")
-    table.insert(alt_entity_filters, name .. "-color-coded-pipe")
-    table.insert(alt_entity_filters, name .. "-color-coded-pipe-to-ground")
-    table.insert(alt_entity_filters, name .. "-color-coded-storage-tank")
-    table.insert(alt_entity_filters, name .. "-color-coded-pump")
-    table.insert(reverse_entity_filters, name .. "-color-coded-pipe")
-    table.insert(reverse_entity_filters, name .. "-color-coded-pipe-to-ground")
-    table.insert(reverse_entity_filters, name .. "-color-coded-storage-tank")
-    table.insert(reverse_entity_filters, name .. "-color-coded-pump")
-    table.insert(alt_reverse_entity_filters, name .. "-color-coded-pipe")
-    table.insert(alt_reverse_entity_filters, name .. "-color-coded-pipe-to-ground")
-    table.insert(alt_reverse_entity_filters, name .. "-color-coded-storage-tank")
-    table.insert(alt_reverse_entity_filters, name .. "-color-coded-pump")
+for color_name, _ in pairs(rgb_colors) do
+    local suffixes = {}
+    for _, pipe_name in pairs(base_filter_items) do
+        table.insert(suffixes, "-color-coded-" .. pipe_name)
+    end
+    for _, suffix in ipairs(suffixes) do
+        table.insert(entity_filters, color_name .. suffix)
+        table.insert(alt_entity_filters, color_name .. suffix)
+        table.insert(reverse_entity_filters, color_name .. suffix)
+        table.insert(alt_reverse_entity_filters, color_name .. suffix)
+    end
 end
 
 local pipe_painting_planner = table.deepcopy(data.raw["selection-tool"]["selection-tool"])
