@@ -12,6 +12,14 @@ if mods["pipe_plus"] then
     table.insert(base_filter_items, "pipe-to-ground-2")
     table.insert(base_filter_items, "pipe-to-ground-3")
 end
+if mods["Flow Control"] then
+    table.insert(base_filter_items, "pipe-elbow")
+    table.insert(base_filter_items, "pipe-junction")
+    table.insert(base_filter_items, "pipe-straight")
+end
+if mods["StorageTank2_2_0"] then
+    table.insert(base_filter_items, "storage-tank2")
+end
 
 local entity_filters = {} ---@type string[]
 local alt_entity_filters = {} ---@type string[]
