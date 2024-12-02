@@ -3,6 +3,7 @@ Version: 0.0.7
 Date: ????
   Changes:
     - added support for color-coded pipes from the flow control mod
+    - added support for color-coded pipes from the storage tank mk2 mod
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.6
 Date: 23NOV2024
