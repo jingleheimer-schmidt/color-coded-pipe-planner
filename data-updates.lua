@@ -37,11 +37,15 @@ for color_name, _ in pairs(rgb_colors) do
     for _, pipe_name in pairs(base_filter_items) do
         table.insert(suffixes, "-color-coded-" .. pipe_name)
     end
-    for _, suffix in ipairs(suffixes) do
-        table.insert(entity_filters, color_name .. suffix)
-        table.insert(alt_entity_filters, color_name .. suffix)
-        table.insert(reverse_entity_filters, color_name .. suffix)
-        table.insert(alt_reverse_entity_filters, color_name .. suffix)
+    for _, suffix in pairs(suffixes) do
+        local full_name = color_name .. suffix
+        local pipes, pipe_to_grounds, storage_tanks, pumps = data.raw["pipe"], data.raw["pipe-to-ground"], data.raw["storage-tank"], data.raw["pump"]
+        if pipes[full_name] or pipe_to_grounds[full_name] or storage_tanks[full_name] or pumps[full_name] then
+            table.insert(entity_filters, full_name)
+            table.insert(alt_entity_filters, full_name)
+            table.insert(reverse_entity_filters, full_name)
+            table.insert(alt_reverse_entity_filters, full_name)
+        end
     end
 end
 
