@@ -2,6 +2,10 @@
 Version: 0.0.9
 Date: ????
   Changes:
+    - added support for Zithorian's Extra Storage Tanks mod
+    - updated mod description
+  Locale:
+    - Updated locales from Crowdin: 🇨🇿 Czech (cs), 🇩🇪 German (de), 🇪🇸 Spanish (es-ES), 🇫🇷 French (fr), 🇭🇺 Hungarian (hu), 🇯🇵 Japanese (ja), 🇰🇷 Korean (ko), 🇵🇱 Polish (pl), 🇷🇺 Russian (ru), 🇺🇦 Ukrainian (uk), 🇨🇳 Chinese Simplified (zh-CN), 🇹🇼 Chinese Traditional (zh-TW)
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.8
 Date: 20DEC2024
