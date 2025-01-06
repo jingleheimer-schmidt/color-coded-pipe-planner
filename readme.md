@@ -14,7 +14,7 @@ This mod adds a planner tool that automatically color-codes pipes based on their
 # Translation
 Help translate Color Coded Pipe Planner to more languages: https://crowdin.com/project/factorio-mods-localization
 Currently available locale:
-- English (en)
+🇺🇸 English (en), 🇨🇿 Czech (cs), 🇩🇪 German (de), 🇪🇸 Spanish (es-ES), 🇫🇷 French (fr), 🇭🇺 Hungarian (hu), 🇯🇵 Japanese (ja), 🇰🇷 Korean (ko), 🇵🇱 Polish (pl), 🇷🇺 Russian (ru), 🇺🇦 Ukrainian (uk), 🇨🇳 Chinese Simplified (zh-CN), 🇹🇼 Chinese Traditional (zh-TW)
 
 ---------------------
 # Compatibility
