@@ -20,6 +20,12 @@ end
 if mods["StorageTank2_2_0"] then
     table.insert(base_filter_items, "storage-tank2")
 end
+if mods["zithorian-extra-storage-tanks-port"] then
+    table.insert(base_filter_items, "fluid-tank-1x1")
+    table.insert(base_filter_items, "fluid-tank-2x2")
+    table.insert(base_filter_items, "fluid-tank-3x4")
+    table.insert(base_filter_items, "fluid-tank-5x5")
+end
 
 local entity_filters = {} ---@type string[]
 local alt_entity_filters = {} ---@type string[]
