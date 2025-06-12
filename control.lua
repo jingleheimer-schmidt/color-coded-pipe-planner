@@ -24,8 +24,7 @@ local function on_player_alt_selected_area(event)
     if not player then return end
     local force = player.force
     for _, entity in pairs(event.entities) do
-        if not entity.valid then
-        elseif entity.to_be_upgraded() then
+        if entity.valid and entity.to_be_upgraded() then
             entity.cancel_upgrade(force, player)
         end
     end
