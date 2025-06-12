@@ -3,18 +3,6 @@ local painting = require("__color-coded-pipes__.scripts.painting")
 local paint_pipe = painting.paint_pipe
 local unpaint_pipe = painting.unpaint_pipe
 
----@param entity LuaEntity
----@return boolean
-local function entity_is_crafting_machine(entity)
-    local type = entity.type
-    local crafting_machine_types = {
-        ["assembling-machine"] = true,
-        ["furnace"] = true,
-        ["rocket-silo"] = true,
-    }
-    return crafting_machine_types[type]
-end
-
 ---@param event EventData.on_player_selected_area
 local function on_player_selected_area(event)
     if event.item ~= "pipe-painting-planner" then return end
