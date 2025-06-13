@@ -1,6 +1,6 @@
 {
     "name": "color-coded-pipe-planner",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "title": "Color Coded Pipe Planner",
     "author": "asher_sky",
     "description": "A planner tool for automatically color coding pipes based on their contents",
