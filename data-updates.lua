@@ -4,9 +4,13 @@ local pipe_colors = constants.pipe_colors
 local base_entities = constants.base_entities
 
 local filter_items = {}
+local pipes = data.raw["pipe"]
+local pipe_to_grounds = data.raw["pipe-to-ground"]
+local storage_tanks = data.raw["storage-tank"]
+local pumps = data.raw["pump"]
+
 for _, entity_data in pairs(base_entities) do
     local entity_name = entity_data.name
-    local pipes, pipe_to_grounds, storage_tanks, pumps = data.raw["pipe"], data.raw["pipe-to-ground"], data.raw["storage-tank"], data.raw["pump"]
     if pipes[entity_name] or pipe_to_grounds[entity_name] or storage_tanks[entity_name] or pumps[entity_name] then
         table.insert(filter_items, entity_name)
     end
