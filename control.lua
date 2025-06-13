@@ -10,6 +10,11 @@ local function on_player_selected_area(event)
     if not player then return end
     local bots_required = player.mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
     local planner_mode = player.mod_settings["color-coded-pipe-planner-mode"].value --[[@as string]]
+    local planner_modes = {
+        ["best-guess"] = "rainbow",
+        ["perfect-match"] = "fluid"
+    }
+    planner_mode = planner_modes[planner_mode] or "rainbow"
     for _, entity in pairs(event.entities) do
         if entity.valid then
             paint_pipe(player, entity, bots_required, planner_mode)
