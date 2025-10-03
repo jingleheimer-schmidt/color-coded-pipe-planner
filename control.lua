@@ -103,8 +103,8 @@ script.on_event(defines.events.on_gui_click, on_gui_click)
 local function on_mod_item_opened(event)
     local player = game.get_player(event.player_index)
     if not player then return end
-    local item = event.item
-    if not item == "pipe-painting-planner" then return end
+    local item = event.item.name
+    if item ~= "pipe-painting-planner" then return end
     if player.gui.screen["color-coded-pipes-planner-frame"] then
         player.gui.screen["color-coded-pipes-planner-frame"].destroy()
     end
@@ -112,9 +112,23 @@ local function on_mod_item_opened(event)
         type = "frame",
         name = "color-coded-pipes-planner-frame",
         caption = { "item-name.pipe-painting-planner" },
+        direction = "vertical",
     }
     frame.auto_center = true
-    frame.add {
+    local settings_frame = frame.add {
+        type = "frame",
+        name = "color-coded-pipes-planner-settings-frame",
+        -- caption = { "color-pipes-gui.planner-settings" },
+        style = "entity_frame"
+    }
+    local button_flow = frame.add {
+        type = "flow",
+        name = "color-coded-pipes-planner-button-frame",
+        style = "dialog_buttons_horizontal_flow",
+    }
+    button_flow.style.horizontally_stretchable = true
+    button_flow.style.horizontal_align = "center"
+    button_flow.add {
         type = "button",
         -- sprite = "utility/close_black",
         -- hovered_sprite = "utility/close_white",
@@ -123,7 +137,11 @@ local function on_mod_item_opened(event)
         tooltip = { "gui.close-instruction" },
         style = "back_button",
     }
-    frame.add {
+    button_flow.add {
+        type = "empty-widget",
+        style = "draggable_space_header",
+    }
+    button_flow.add {
         type = "button",
         -- sprite = "utility/trash",
         -- hovered_sprite = "utility/trash_white",
@@ -131,6 +149,59 @@ local function on_mod_item_opened(event)
         caption = { "color-pipes-gui.delete-planner-button" },
         tooltip = { "color-pipes-gui.delete-planner-button" },
         style = "red_confirm_button",
+    }
+    -- Build a two-column table for settings: [label+info] | [control]
+    local settings_table = settings_frame.add {
+        type = "table",
+        name = "color-coded-pipes-planner-settings-table",
+        column_count = 2,
+        draw_horizontal_lines = false,
+        draw_vertical_lines = false,
+    }
+    -- Tweak spacing/alignment so controls sit to the right
+    settings_table.style.horizontal_spacing = 12
+    settings_table.style.column_alignments[2] = "right"
+
+    -- Row 1: Require Construction Bots [i] | [checkbox]
+    local bots_label_flow = settings_table.add { type = "flow", direction = "horizontal" }
+    bots_label_flow.add {
+        type = "sprite-button",
+        style = "mini_tool_button_red",
+        name = "color-coded-pipe-planner-bots-required-reset-button",
+        sprite = "utility/reset",
+        -- tooltip = { "gui.reset-instruction" },
+    }
+    bots_label_flow.add {
+        type = "label",
+        caption = { "", { "mod-setting-name.color-coded-pipe-planner-bots-required" }, " [img=info]" },
+        tooltip = { "mod-setting-description.color-coded-pipe-planner-bots-required" },
+    }
+    settings_table.add {
+        type = "checkbox",
+        name = "color-coded-pipe-planner-bots-required-checkbox",
+        state = player.mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
+    }
+
+    -- Row 2: Color Matching Mode [i] | [dropdown]
+    local mode_label_flow = settings_table.add { type = "flow", direction = "horizontal" }
+    mode_label_flow.add {
+        type = "sprite-button",
+        style = "mini_tool_button_red",
+        name = "color-coded-pipe-planner-mode-reset-button",
+        sprite = "utility/reset"
+    }
+    mode_label_flow.add {
+        type = "label",
+        caption = { "", { "mod-setting-name.color-coded-pipe-planner-mode" }, " [img=info]" },
+        tooltip = { "mod-setting-description.color-coded-pipe-planner-mode" },
+    }
+    settings_table.add {
+        type = "drop-down",
+        name = "color-coded-pipe-planner-mode-dropdown",
+        items = {
+            { "string-mod-setting.color-coded-pipe-planner-mode-best-guess" },
+            { "string-mod-setting.color-coded-pipe-planner-mode-perfect-match" },
+        },
     }
     player.opened = frame
 end
