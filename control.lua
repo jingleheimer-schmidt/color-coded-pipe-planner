@@ -72,6 +72,30 @@ script.on_event(defines.events.on_player_alt_selected_area, on_player_alt_select
 script.on_event(defines.events.on_player_reverse_selected_area, on_player_reverse_selected_area)
 script.on_event(defines.events.on_player_alt_reverse_selected_area, on_player_alt_reverse_selected_area)
 
+---@param player LuaPlayer
+local function update_planner_gui_data(player)
+    local planner_gui = player.gui.screen["color-coded-pipes-planner-frame"]
+    if not planner_gui then return end
+    local settings_table = planner_gui["color-coded-pipes-planner-settings-frame"]["color-coded-pipes-planner-settings-table"]
+    if not settings_table then return end
+    local bots_reset_button = settings_table["color-coded-pipe-planner-bots-required-label-flow"]["color-coded-pipe-planner-bots-required-reset-button"]
+    local bots_checkbox = settings_table["color-coded-pipe-planner-bots-required-checkbox"]
+    local mode_reset_button = settings_table["color-coded-pipe-planner-mode-label-flow"]["color-coded-pipe-planner-mode-reset-button"]
+    local mode_dropdown = settings_table["color-coded-pipe-planner-mode-dropdown"]
+    if not (bots_reset_button and bots_checkbox and mode_reset_button and mode_dropdown) then return end
+    local mod_settings = player.mod_settings
+    local bots_required = mod_settings["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
+    local planner_mode = mod_settings["color-coded-pipe-planner-mode"].value --[[@as string]]
+    local default_bots_value = settings.player_default["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
+    local default_mode_value = settings.player_default["color-coded-pipe-planner-mode"].value --[[@as string]]
+    bots_checkbox.state = bots_required
+    mode_dropdown.selected_index = (planner_mode == "best-guess" and 1) or (planner_mode == "perfect-match" and 2) or 1
+    bots_reset_button.enabled = (bots_required ~= default_bots_value)
+    bots_reset_button.sprite = bots_reset_button.enabled and "utility/reset" or "utility/reset_white"
+    mode_reset_button.enabled = (planner_mode ~= default_mode_value)
+    mode_reset_button.sprite = mode_reset_button.enabled and "utility/reset" or "utility/reset_white"
+end
+
 ---@param event EventData.on_gui_click
 local function on_gui_click(event)
     local player = game.get_player(event.player_index)
@@ -95,9 +119,51 @@ local function on_gui_click(event)
         player.gui.screen["color-coded-pipes-planner-frame"].destroy()
         player.opened = player
     end
+    if name == "color-coded-pipe-planner-bots-required-reset-button" then
+        local default_value = settings.player_default["color-coded-pipe-planner-bots-required"].value --[[@as boolean]]
+        player.mod_settings["color-coded-pipe-planner-bots-required"] = { value = default_value }
+    end
+    if name == "color-coded-pipe-planner-bots-required-checkbox" then
+        local state = element.state --[[@as boolean]]
+        player.mod_settings["color-coded-pipe-planner-bots-required"] = { value = state }
+    end
+    if name == "color-coded-pipe-planner-mode-reset-button" then
+        local default_value = settings.player_default["color-coded-pipe-planner-mode"].value --[[@as string]]
+        player.mod_settings["color-coded-pipe-planner-mode"] = { value = default_value }
+    end
+    if name == "color-coded-pipe-planner-mode-dropdown" then
+        local index = element.selected_index --[[@as uint]]
+        local modes = {
+            [1] = "best-guess",
+            [2] = "perfect-match"
+        }
+        local mode = modes[index] or "best-guess"
+        player.mod_settings["color-coded-pipe-planner-mode"] = { value = mode }
+    end
+    update_planner_gui_data(player)
 end
 
 script.on_event(defines.events.on_gui_click, on_gui_click)
+
+---@param event EventData.on_gui_selection_state_changed
+local function on_gui_selection_state_changed(event)
+    local element = event.element
+    local name = element.name
+    if name == "color-coded-pipe-planner-mode-dropdown" then
+        local player = game.get_player(event.player_index)
+        if not (player and player.valid) then return end
+        local index = element.selected_index --[[@as uint]]
+        local modes = {
+            [1] = "best-guess",
+            [2] = "perfect-match"
+        }
+        local mode = modes[index] or "best-guess"
+        player.mod_settings["color-coded-pipe-planner-mode"] = { value = mode }
+        update_planner_gui_data(player)
+    end
+end
+
+script.on_event(defines.events.on_gui_selection_state_changed, on_gui_selection_state_changed)
 
 ---@param event EventData.on_mod_item_opened
 local function on_mod_item_opened(event)
@@ -119,7 +185,7 @@ local function on_mod_item_opened(event)
         type = "frame",
         name = "color-coded-pipes-planner-settings-frame",
         -- caption = { "color-pipes-gui.planner-settings" },
-        style = "entity_frame"
+        style = "inside_shallow_frame_with_padding"
     }
     local button_flow = frame.add {
         type = "flow",
@@ -137,10 +203,11 @@ local function on_mod_item_opened(event)
         tooltip = { "gui.close-instruction" },
         style = "back_button",
     }
-    button_flow.add {
+    local button_graggable_space = button_flow.add {
         type = "empty-widget",
         style = "draggable_space_header",
     }
+    button_graggable_space.style.horizontally_stretchable = true
     button_flow.add {
         type = "button",
         -- sprite = "utility/trash",
@@ -163,7 +230,7 @@ local function on_mod_item_opened(event)
     settings_table.style.column_alignments[2] = "right"
 
     -- Row 1: Require Construction Bots [i] | [checkbox]
-    local bots_label_flow = settings_table.add { type = "flow", direction = "horizontal" }
+    local bots_label_flow = settings_table.add { type = "flow", name = "color-coded-pipe-planner-bots-required-label-flow", direction = "horizontal" }
     bots_label_flow.add {
         type = "sprite-button",
         style = "mini_tool_button_red",
@@ -183,7 +250,7 @@ local function on_mod_item_opened(event)
     }
 
     -- Row 2: Color Matching Mode [i] | [dropdown]
-    local mode_label_flow = settings_table.add { type = "flow", direction = "horizontal" }
+    local mode_label_flow = settings_table.add { type = "flow", name = "color-coded-pipe-planner-mode-label-flow", direction = "horizontal" }
     mode_label_flow.add {
         type = "sprite-button",
         style = "mini_tool_button_red",
@@ -204,6 +271,7 @@ local function on_mod_item_opened(event)
         },
     }
     player.opened = frame
+    update_planner_gui_data(player)
 end
 
 script.on_event(defines.events.on_mod_item_opened, on_mod_item_opened)
