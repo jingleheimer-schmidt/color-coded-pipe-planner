@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.1.1
+Version: 0.2.0
 Date: ????
+  Features:
+    - added settings to the planner tool gui
   Locale:
     - Updated planner mode mod setting names and descriptions
 ---------------------------------------------------------------------------------------------------
