@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.0
-Date: ????
+Date: 2025-10-25
   Features:
     - added settings to the planner tool gui
   Locale:
