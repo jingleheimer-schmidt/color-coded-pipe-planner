@@ -203,11 +203,11 @@ local function on_mod_item_opened(event)
         tooltip = { "gui.close-instruction" },
         style = "back_button",
     }
-    local button_graggable_space = button_flow.add {
+    local button_draggable_space = button_flow.add {
         type = "empty-widget",
         style = "draggable_space_header",
     }
-    button_graggable_space.style.horizontally_stretchable = true
+    button_draggable_space.style.horizontally_stretchable = true
     button_flow.add {
         type = "button",
         -- sprite = "utility/trash",
