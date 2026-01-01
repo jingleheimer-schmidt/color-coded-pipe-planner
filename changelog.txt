@@ -2,6 +2,7 @@
 Version: 0.2.1
 Date: ????
   Changes:
+    - updated mod thumbnail
     - updated readme
   Locale:
     - updated locale from Crowdin
