@@ -2,13 +2,17 @@
 Version: 0.2.1
 Date: ????
   Changes:
+    - updated mod thumbnail
+    - updated readme
+  Locale:
+    - updated locale from Crowdin
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.0
 Date: 2025-10-25
   Features:
     - added settings to the planner tool gui
   Locale:
-    - Updated planner mode mod setting names and descriptions
+    - updated planner mode mod setting names and descriptions
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 2025-06-13
@@ -21,7 +25,7 @@ Date: 2025-01-06
     - added support for Zithorian's Extra Storage Tanks mod
     - updated mod description
   Locale:
-    - Updated locales from Crowdin: 🇨🇿 Czech (cs), 🇩🇪 German (de), 🇪🇸 Spanish (es-ES), 🇫🇷 French (fr), 🇭🇺 Hungarian (hu), 🇯🇵 Japanese (ja), 🇰🇷 Korean (ko), 🇵🇱 Polish (pl), 🇷🇺 Russian (ru), 🇺🇦 Ukrainian (uk), 🇨🇳 Chinese Simplified (zh-CN), 🇹🇼 Chinese Traditional (zh-TW)
+    - updated locale from Crowdin: 🇨🇿 Czech (cs), 🇩🇪 German (de), 🇪🇸 Spanish (es-ES), 🇫🇷 French (fr), 🇭🇺 Hungarian (hu), 🇯🇵 Japanese (ja), 🇰🇷 Korean (ko), 🇵🇱 Polish (pl), 🇷🇺 Russian (ru), 🇺🇦 Ukrainian (uk), 🇨🇳 Chinese Simplified (zh-CN), 🇹🇼 Chinese Traditional (zh-TW)
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.8
 Date: 20DEC2024
