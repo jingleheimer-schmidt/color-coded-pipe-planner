@@ -7,7 +7,7 @@
     "factorio_version": "2.1",
     "dependencies": [
         "base",
-        "color-coded-pipes >= 1.4.0"
+        "color-coded-pipes >= 1.6.4"
     ],
     "package": {
         "ignore": [
