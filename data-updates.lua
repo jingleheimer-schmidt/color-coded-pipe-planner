@@ -38,18 +38,18 @@ local pipe_painting_planner = table.deepcopy(data.raw["selection-tool"]["selecti
 pipe_painting_planner.name = "pipe-painting-planner"
 
 pipe_painting_planner.select.entity_filters = entity_filters
-pipe_painting_planner.select.mode = { "friend", "upgrade", }
+pipe_painting_planner.select.mode = { "any-entity", "friend" }
 
 pipe_painting_planner.alt_select.entity_filters = alt_entity_filters
-pipe_painting_planner.alt_select.mode = { "friend", "cancel-upgrade", }
+pipe_painting_planner.alt_select.mode = { "any-entity", "friend" }
 
 pipe_painting_planner.reverse_select = table.deepcopy(pipe_painting_planner.select)
 pipe_painting_planner.reverse_select.entity_filters = reverse_entity_filters
-pipe_painting_planner.reverse_select.mode = { "friend", "upgrade", }
+pipe_painting_planner.reverse_select.mode = { "any-entity", "friend" }
 
 pipe_painting_planner.alt_reverse_select = table.deepcopy(pipe_painting_planner.alt_select)
 pipe_painting_planner.alt_reverse_select.entity_filters = alt_reverse_entity_filters
-pipe_painting_planner.alt_reverse_select.mode = { "friend", "cancel-upgrade", }
+pipe_painting_planner.alt_reverse_select.mode = { "any-entity", "friend" }
 
 pipe_painting_planner.flags = {
     "not-stackable",
